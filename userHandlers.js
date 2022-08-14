@@ -1,30 +1,3 @@
-// const movies = [
-//   {
-//     id: 1,
-//     title: "Citizen Kane",
-//     director: "Orson Wells",
-//     year: "1941",
-//     colors: false,
-//     duration: 120,
-//   },
-//   {
-//     id: 2,
-//     title: "The Godfather",
-//     director: "Francis Ford Coppola",
-//     year: "1972",
-//     colors: true,
-//     duration: 180,
-//   },
-//   {
-//     id: 3,
-//     title: "Pulp Fiction",
-//     director: "Quentin Tarantino",
-//     year: "1994",
-//     color: true,
-//     duration: 180,
-//   },
-// ];
-
 const database = require("./database");
 
 const getUsers = (req, res) => {
@@ -51,7 +24,23 @@ const getUserById = (req, res) => {
     .catch((err) => res.status(500).send("connection error"));
 };
 
+const postUser = (req, res) => {
+  const { firstname, lastname, email, city, language } = req.body;
+  database
+    .query(
+      "insert into users (firstname, lastname, email, city, language) values (?, ?, ?, ?, ?)",
+      [firstname, lastname, email, city, language]
+    )
+    .then(([result]) => {
+      res.location(`/api/users/${result.insertId}`).sendStatus(201);
+    })
+    .catch((err) => {
+      res.status(500).send("Error adding the user");
+    });
+};
+
 module.exports = {
   getUsers,
   getUserById,
+  postUser,
 };
