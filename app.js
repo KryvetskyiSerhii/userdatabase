@@ -19,7 +19,8 @@ app.get("/api/movies", movieHandlers.getMovies);
 app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.post("/api/movies", movieHandlers.postMovies);
 app.post("/api/users", userHandlers.postUser);
-
+app.put("/api/movies/:id", movieHandlers.putMovies);
+app.put("/api/users/:id", userHandlers.putUsers);
 app.listen(port, (err) => {
   if (err) {
     console.error("Something bad happened");
